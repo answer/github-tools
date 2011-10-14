@@ -13,14 +13,14 @@ github のリポジトリをローカル gitolite に push する
   $ crontab -e
 
   # backup github repos
-  27 6 * * * /path/to/backup-repos.sh > ~/.backup-repos/backup.log 2>&1
+  27 6 * * * /path/to/backup-repos.sh >> /dev/null 2>&1
 
-ログを追記で保存する場合は logrotate も適切に設定すること
+ログをどこかに保存する場合は logrotate も適切に設定すること
 
 
 == 作成されるファイル
 
-* git リポジトリ: ~/.backup-repos/<リポジトリ名>
+* git リポジトリ: ~/$backup_dir/<リポジトリ名>
 
 
 == gitolite に作成されるリポジトリ
@@ -32,6 +32,7 @@ github のリポジトリをローカル gitolite に push する
 
 * ~/.github-tools.rc
   * gitolite_ssh="gitolite に接続するための ssh エイリアス名(必須)"
+  * backup_dir="github から clone するディレクトリ (default: ~/.backup-repos)"
   * backup_repos=([バックアップするリポジトリ名] ...)
   * backup_prefix="gitolite にバックアップする際の接頭辞 (default: github)"
 
