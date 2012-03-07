@@ -9,9 +9,6 @@ fi
 if [ -z "$backup_dir" ]; then
 	backup_dir=~/.backup-repos
 fi
-if [ -z "$backup_prefix" ]; then
-	backup_prefix=github
-fi
 
 if [ ! -d "$backup_dir" ]; then
 	mkdir -p "$backup_dir"
@@ -21,7 +18,20 @@ if [ ! -d "$backup_dir" ]; then
 	exit
 fi
 
-for backup_repo in ${backup_repos[*]}; do
+for backup_setting in "${backup_repos[@]}"; do
+	prefix=
+	host=
+	backup_repo=
+	for setting in ${backup_setting[*]}; do
+		if [ -z "$prefix" ]; then
+			prefix=$setting
+		elif [ -z "$host" ]; then
+			host=$setting
+		elif [ -z "$backup_repo" ]; then
+			backup_repo=$setting
+		fi
+	done
+
 	cd "$backup_dir"
 
 	account=`dirname "$backup_repo"`
@@ -30,9 +40,9 @@ for backup_repo in ${backup_repos[*]}; do
 
 	repo=`basename "$backup_repo"`
 	if [ ! -d "$repo" ]; then
-		git clone "git://github.com/$backup_repo"
+		git clone "$host$backup_repo"
 	fi
 
 	cd "$repo"
-	git push "$gitolite_ssh:$backup_prefix/$backup_repo" refs/remotes/origin/*:refs/heads/*
+	git push "$gitolite_ssh:$prefix/$backup_repo" refs/remotes/origin/*:refs/heads/*
 done
