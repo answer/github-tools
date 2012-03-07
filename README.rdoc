@@ -1,6 +1,6 @@
 = github-tools
 
-github のリポジトリをローカル gitolite に push する
+github や bitbucket のリポジトリをローカル gitolite に push する
 
 
 == 動作確認環境
@@ -34,7 +34,6 @@ github のリポジトリをローカル gitolite に push する
   * gitolite_ssh="gitolite に接続するための ssh エイリアス名(必須)"
   * backup_dir="github から clone するディレクトリ (default: ~/.backup-repos)"
   * backup_repos=([バックアップするリポジトリ名] ...)
-  * backup_prefix="gitolite にバックアップする際の接頭辞 (default: github)"
 
 backup_repos は下記 backup-repos.sh 参照
 
@@ -43,15 +42,36 @@ backup_repos は下記 backup-repos.sh 参照
 
 設定したリポジトリを clone して gitolite に push する
 
+* ホスト: github
 * アカウント: answer
 * リポジトリ
-  * gitolite-tools
-  * github-tools
+ * gitolite-tools
+ * github-tools
+
+* ホスト: bitbucket
+* アカウント: answer
+* リポジトリ
+ * my-bitbucket-project
 
 この構成をバックアップしたい場合の設定は、
 
-  backup_repos=(
-    answer/gitolite-tools
-    answer/github-tools
-  )
+ backup_repos=(
+   "github git://github.com/ answer/gitolite-tools"
+   "github git://github.com/ answer/github-tools"
+   "bitbucket git@bitbucket.org: answer/my-bitbucket-project"
+ )
+
+リストは二重引用符 " で囲った文字列の配列を指定する
+
+指定する文字列は、
+
+1. gitolite リポジトリの prefix
+1. ホスト名
+1. リポジトリパス
+
+を、空白で区切って指定する
+
+ホスト名と、リポジトリパスは、そのまま連結して git clone 出来る形式で指定する
+
+cron で bitbucket リポジトリをバックアップする場合、実行ユーザーのパスフレーズなしの鍵を登録しておく必要がある
 
