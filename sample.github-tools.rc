@@ -1,5 +1,6 @@
 gitolite_ssh=ssh-config-alias
 backup_repos=(
-  answer/gitolite-tools
-  answer/github-tools
+  "github git://github.com/ answer/gitolite-tools"
+  "github git://github.com/ answer/github-tools"
+  "bitbucket git@bitbucket.org: answer/exceed-mkt.git"
 )
