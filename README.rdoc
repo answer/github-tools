@@ -42,19 +42,6 @@ backup_repos は下記 backup-repos.sh 参照
 
 設定したリポジトリを clone して gitolite に push する
 
-* ホスト: github
-* アカウント: answer
-* リポジトリ
- * gitolite-tools
- * github-tools
-
-* ホスト: bitbucket
-* アカウント: answer
-* リポジトリ
- * my-bitbucket-project
-
-この構成をバックアップしたい場合の設定は、
-
  backup_repos=(
    "github git://github.com/ answer/gitolite-tools"
    "github git://github.com/ answer/github-tools"
